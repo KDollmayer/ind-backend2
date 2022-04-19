@@ -43,6 +43,46 @@ const renderTodo = async (req, res) => {
 
 
 }
+const renderTodoDone = async (req, res) => {
+    const author = req.user.userId
+
+
+    try {
+        const todoDone = await Todo.find({ author: author }).sort('-createdAt').exec()
+        const todo = todoDone.filter(element => {
+            return element.done == true
+        })
+        res.json({ todo })
+
+
+    } catch (error) {
+        res.json({ message: error })
+    }
+
+
+
+}
+const renderTodoNotDone = async (req, res) => {
+    const author = req.user.userId
+
+
+    try {
+        const todoDone = await Todo.find({ author: author }).sort('-createdAt').exec()
+        
+        const todo = todoDone.filter(element => {
+            return element.done == false
+        })
+        console.log(todo)
+        res.json({ todo })
+
+
+    } catch (error) {
+        res.json({ message: error })
+    }
+
+
+
+}
 const getTodoBySlug = (async (req, res) => {
     const slug = req.params.slug
 
@@ -69,7 +109,7 @@ const setDone = (async (req, res) => {
 });
 
 const removeDone = (async (req, res) => {
-    console.log("DELETE")
+    
     let slug = req.params.slug;
     await Todo.updateOne(
         { slug: slug },
@@ -86,5 +126,7 @@ const removeDone = (async (req, res) => {
 });
 
 
-module.exports = { createTodo, renderTodo, getTodoBySlug, setDone, removeDone }
+
+
+module.exports = { createTodo, renderTodo, getTodoBySlug, setDone, removeDone, renderTodoDone, renderTodoNotDone }
 
