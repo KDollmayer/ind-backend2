@@ -15,16 +15,6 @@ userSchema.pre("save", async function (next) {
 
 const User = mongoose.model("User", userSchema);
 
-const createUser = async (user) => {
-  return await User.create(user);
-};
 
-const login = async (username, password) => {
-  const user = await User.findOne({ username });
-  if (user && (await bcrypt.compare(password, user.password))) {
-    return user;
-  }
-  return null;
-};
 
-module.exports = { createUser, login };
+exports.User = User
