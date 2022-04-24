@@ -4,7 +4,7 @@ const { Todo } = require('../models/Todo');
 const { User } = require("../models/User")
 
 const createTodo = async (req, res) => {
-    const { title, body } = req.body.todo;
+    const { title, body } = req.body;
 
     const entry = new Todo({
         title,

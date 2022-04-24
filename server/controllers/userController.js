@@ -4,7 +4,7 @@ const { generateToken } = require('./auth');
 const { User } = require('../models/User');
 
 const registerUser = (async (req, res) => {
-    const { username, password } = req.body.user;
+    const { username, password } = req.body;
    
     const userExists = await User.findOne({ username });
     if (userExists) {
@@ -32,7 +32,7 @@ const registerUser = (async (req, res) => {
     });
   });
   const login = (async (req, res) => {
-    const { username, password } = req.body.user;
+    const { username, password } = req.body;
     const user = await User.findOne({ username });
   
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -40,12 +40,7 @@ const registerUser = (async (req, res) => {
       //string
   
       return res.json({
-        user: {
-          username: user.username,
-          password: user.password,
-          
-          token: token,
-        },
+        token
       });
     } else {
       res.status(400);
